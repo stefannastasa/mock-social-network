@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="400" maxWidth="370" pickOnBounds="false" prefHeight="374.0" prefWidth="358.0" style="-fx-background-color: #f9f9f9;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.mocksocialnetwork.LoginController">
+   <children>
+      <Separator opacity="0.0" orientation="VERTICAL" prefHeight="67.0" prefWidth="12.0" />
+      <Text fill="#3d3b8e" mouseTransparent="true" strokeType="OUTSIDE" strokeWidth="0.0" text="mock-social-network" textAlignment="CENTER" wrappingWidth="356.60003662109375">
+         <font>
+            <Font name="Cantarell Regular" size="30.0" />
+         </font>
+      </Text>
+      <Separator opacity="0.0" orientation="VERTICAL" prefHeight="50.0" prefWidth="5.0" />
+      <HBox alignment="CENTER" prefHeight="39.0" prefWidth="355.0">
+         <children>
+            <Text fill="#3d3b8e" strokeType="OUTSIDE" strokeWidth="0.0" text="username / email" textAlignment="RIGHT" wrappingWidth="147.13000106811523">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <Separator opacity="0.0" prefHeight="8.0" prefWidth="0.0" />
+            <TextField fx:id="user_identification" prefHeight="14.0" prefWidth="141.0">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <effect>
+                  <Blend />
+               </effect></TextField>
+         </children>
+      </HBox>
+      <Separator opacity="0.0" orientation="VERTICAL" prefHeight="40.0" prefWidth="6.0" />
+      <HBox alignment="CENTER" prefHeight="39.0" prefWidth="355.0">
+         <children>
+            <Text fill="#3d3b8e" strokeType="OUTSIDE" strokeWidth="0.0" text="password" textAlignment="RIGHT" wrappingWidth="145.13000106811523">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Text>
+            <Separator opacity="0.0" prefHeight="8.0" prefWidth="0.0" />
+            <PasswordField fx:id="user_password" prefHeight="26.0" prefWidth="140.0" />
+         </children>
+      </HBox>
+      <Separator opacity="0.0" orientation="VERTICAL" prefHeight="50.0" prefWidth="2.0" />
+      <VBox alignment="CENTER" prefHeight="89.0" prefWidth="355.0">
+         <children>
+            <Button fx:id="login_button" onMouseClicked="#onLoginButtonClicked" id="btn" contentDisplay="CENTER" style="-fx-background-color: #3d3b8e; -fx-text-fill: #F9F9F9" defaultButton="true" mnemonicParsing="false" prefHeight="27.0" prefWidth="99.0" text="Log in" textAlignment="CENTER">
+               <styleClass>
+                  <String fx:value="btn" />
+               </styleClass>
+               <styleClass>
+                  <String fx:value="btn-lg" />
+               </styleClass>
+               <effect>
+                  <Blend />
+               </effect>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Separator opacity="0.0" orientation="VERTICAL" prefHeight="91.0" prefWidth="7.0" />
+            <Button fx:id="register_button" id="btn" contentDisplay="CENTER" style="-fx-background-color: #6883ba; -fx-text-fill: #F9F9F9" mnemonicParsing="false" prefHeight="17.0" prefWidth="80.0" text="Register" textAlignment="CENTER"  onMouseClicked="#onRegisterButtonClicked">
+               <styleClass>
+                  <String fx:value="btn" />
+               </styleClass>
+               <styleClass>
+                  <String fx:value="btn-sm" />
+               </styleClass>
+               <effect>
+                  <Blend />
+               </effect>
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+         </children>
+      </VBox>
+      <Separator opacity="0.0" orientation="VERTICAL" prefHeight="91.0" prefWidth="7.0" />
+   </children>
+   <effect>
+      <Blend />
+   </effect>
+</VBox>

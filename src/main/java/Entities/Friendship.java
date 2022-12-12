@@ -8,6 +8,7 @@ public class Friendship {
 
     private LocalDateTime dateTime;
     private FriendshipStatus status;
+
     private final EID user;
 
     public Friendship(LocalDateTime dateTime, FriendshipStatus status, EID user) {

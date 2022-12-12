@@ -1,28 +1,34 @@
 package Service;
 
-import Entities.EID;
-import Entities.Friendships;
-import Entities.User;
+import Entities.*;
 import Exceptions.SocialNetworkException;
 import Repository.UserRepository;
 import Repository.FriendshipRepository;
 
+import Strategies.InputValidator;
 import Strategies.Strategy;
+import Utils.FriendshipStatus;
+import Utils.pair;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Service {
     private final UserRepository UserRepo = new UserRepository();
     private final FriendshipRepository FriendsRepo = new FriendshipRepository();
-    private final Strategy validator ;
+    private final Strategy validator = new InputValidator();
 
-    /**
-     * Constructor needs validation strategy.
-     * @param validator strategy for the service
-     * */
-    public Service(Strategy validator){
-        this.validator = validator;
+    private static Service instance = null;
+
+    private Service(){}
+
+    public static Service getInstance(){
+        if(instance == null){
+            instance = new Service();
+        }
+
+        return instance;
     }
 
     /**
@@ -42,6 +48,11 @@ public class Service {
         UserRepo.addElem(U);
         FriendsRepo.addElem(new Friendships(U.getUserId()));
     }
+
+    public void addFriendship(EID user1, EID user2) throws Exception {
+        FriendsRepo.addFriends(user1, user2);
+    }
+
     /**
      * Removes the user with the given userName and email combination
      * @param userName username of the user to be removed
@@ -66,37 +77,9 @@ public class Service {
         });
     }
 
+    public void removeFriendship(EID user1, EID user2) throws Exception {
 
-    /**
-     * Adds a friendship between two users.
-     * @param userNameA username of the first user
-     * @param emailA email of the first user
-     * @param userNameB username of the second user
-     * @param emailB email of the second user
-     * */
-    public void addFriendship(String userNameA, String emailA, String userNameB, String emailB) throws Exception {
-        validator.setData(null, userNameA, emailA, null);
-        validator.execute();
-        validator.setData(null, userNameB, emailB, null);
-        validator.execute();
-
-
-        EID keyA = new EID(emailA + userNameA);
-        EID keyB = new EID(emailB + userNameB);
-
-        FriendsRepo.addFriends(keyA,keyB);
-    }
-    public void removeFriendship(String userNameA, String emailA, String userNameB, String emailB) throws Exception {
-        validator.setData(null, userNameA, emailA, null);
-        validator.execute();
-        validator.setData(null, userNameB, emailB, null);
-        validator.execute();
-
-
-        EID keyA = new EID(emailA + userNameA);
-        EID keyB = new EID(emailB + userNameB);
-
-        FriendsRepo.removeFriends(keyA, keyB);
+        FriendsRepo.removeFriends(user1, user2);
 
     }
 
@@ -182,4 +165,52 @@ public class Service {
 
 
     }
+
+    public User getUser(String identification){
+        int checks = 0;
+        User findUser = null;
+        try{
+            validator.checkMail(identification);
+            findUser = UserRepo.getStream().filter(E -> E.getEmail().equals(identification)).findFirst().orElse(null);
+
+        } catch (Exception e){
+            checks++;
+        }
+        if(checks == 1){
+            try{
+                validator.checkUserName(identification);
+                findUser = UserRepo.getStream().filter(E -> E.getUsername().equals(identification)).findFirst().orElse(null);
+            } catch (Exception ex) {
+                checks++;
+            }
+        }
+
+        return findUser;
+    }
+
+    public List<pair<String,Friendship>> getUserFriends(User user){
+        if(FriendsRepo.lookUp(user.getUserId()) == null){
+            return List.of();
+        }
+        return FriendsRepo.lookUp(user.getUserId()).getStream().map(E -> new pair<>(EidLookUpName(E.getUser()), E)).toList();
+    }
+    public String EidLookUpName(EID user){
+        return UserRepo.lookUp(user).getName();
+    }
+    public String EidLookUpUsername(EID user){
+        return UserRepo.lookUp(user).getUsername();
+    }
+
+    public void acceptFriendship(EID user1, EID user2){
+        try {
+            FriendsRepo.updateFriendship(user1, user2, LocalDateTime.now(), FriendshipStatus.FRIENDS);
+        } catch (SocialNetworkException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<ProtectedUser> searchUsers(String input){
+        return UserRepo.getStream().filter(E -> E.getUsername().contains(input) || E.getName().contains(input)).map(E -> new ProtectedUser(E.getName(), E.getUsername(), E.getUserId())).toList();
+    }
+
 }

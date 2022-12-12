@@ -10,6 +10,7 @@ import Utils.FriendshipStatus;
 
 import java.sql.*;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.HashMap;
 import java.util.stream.Stream;
 
@@ -70,6 +71,15 @@ public class FriendshipRepository implements Repository<EID, Friendships> {
             while(resultSet.next()){
                 EID user1 = new EID(resultSet.getBytes("user1"));
                 EID user2 = new EID(resultSet.getBytes("user2"));
+                LocalDateTime friendsSince = LocalDateTime.from(resultSet.getTimestamp("friendssince").toLocalDateTime());
+                String sstatus = resultSet.getString("status");
+                FriendshipStatus real_status;
+                if(sstatus.equals("PENDING"))
+                    real_status = FriendshipStatus.PENDING;
+                else if (sstatus.equals("SENT"))
+                    real_status = FriendshipStatus.SENT;
+                else
+                    real_status = FriendshipStatus.FRIENDS;
 
                 try{
                     Friendships Fs = new Friendships(user1);
@@ -77,8 +87,8 @@ public class FriendshipRepository implements Repository<EID, Friendships> {
                     Fs = new Friendships(user2);
                     this.elemList.put(Fs.getUserId(), Fs);
 
-                    this.lookUp(user1).addFriend(user2);
-                    this.lookUp(user2).addFriend(user1);
+                    this.lookUp(user1).addFriend(user2, friendsSince, real_status);
+                    this.lookUp(user2).addFriend(user1, friendsSince, real_status);
 
                 } catch (ElementExistsException e) {
                     e.printStackTrace();
@@ -98,6 +108,7 @@ public class FriendshipRepository implements Repository<EID, Friendships> {
 
         this.elemList.put(Fs.getUserId(), Fs);
     }
+
 
     public void addFriends(EID keyA, EID keyB) throws SocialNetworkException {
         if(this.lookUp(keyA) == null){

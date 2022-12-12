@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="646.0" style="-fx-background-color: F9F9F9FF;" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mocksocialnetwork.MainController">
+   <children>
+      <Separator orientation="VERTICAL" prefHeight="1.0" prefWidth="4.0" />
+      <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="540.0">
+         <children>
+            <Separator opacity="0.0" prefHeight="0.0" prefWidth="50.0" />
+            <Label fx:id="u_title" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="40.0" prefWidth="274.0" text="Hello, user!" textFill="#3d3b8e" wrapText="true">
+               <font>
+                  <Font size="26.0" />
+               </font>
+            </Label>
+            <Separator opacity="0.0" prefHeight="5.0" prefWidth="60.0" />
+            <TextField fx:id="searchBar" onKeyPressed="#onInput" onKeyReleased="#onRelease" onMouseClicked="#onPromptClick" prefHeight="26.0" prefWidth="221.0" promptText="Search" />
+         </children>
+      </HBox>
+      <HBox prefHeight="397.0" prefWidth="646.0">
+         <children>
+            <Separator opacity="0.0" prefHeight="1.0" prefWidth="20.0" />
+            <VBox prefHeight="351.0" prefWidth="67.0">
+               <children>
+                  <Separator opacity="0.0" orientation="VERTICAL" prefHeight="28.0" prefWidth="0.0" />
+                  <Button fx:id="friends_button" prefHeight="31.0" prefWidth="107.0" style="-fx-background-color: 3D3B8E;" text="Friends" />
+                  <Separator opacity="0.0" orientation="VERTICAL" prefHeight="14.0" prefWidth="5.0" />
+                  <Button prefHeight="31.0" prefWidth="107.0" text="Chat" />
+               </children>
+            </VBox>
+            <Separator opacity="0.0" prefHeight="2.0" prefWidth="35.0" />
+            <Pane prefHeight="322.0" prefWidth="476.0">
+               <children>
+                  <ListView fx:id="friendsListView" prefHeight="397.0" prefWidth="476.0" style="-fx-background-color: F9F9F9FF;" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+   </children>
+</VBox>
