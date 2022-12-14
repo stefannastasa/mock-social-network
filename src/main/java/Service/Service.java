@@ -204,6 +204,7 @@ public class Service {
     public void acceptFriendship(EID user1, EID user2){
         try {
             FriendsRepo.updateFriendship(user1, user2, LocalDateTime.now(), FriendshipStatus.FRIENDS);
+            FriendsRepo.updateFriendship(user2, user1, LocalDateTime.now(), FriendshipStatus.FRIENDS);
         } catch (SocialNetworkException e) {
             throw new RuntimeException(e);
         }

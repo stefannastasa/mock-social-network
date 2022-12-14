@@ -82,13 +82,12 @@ public class FriendshipRepository implements Repository<EID, Friendships> {
                     real_status = FriendshipStatus.FRIENDS;
 
                 try{
-                    Friendships Fs = new Friendships(user1);
-                    this.elemList.put(Fs.getUserId(), Fs);
-                    Fs = new Friendships(user2);
-                    this.elemList.put(Fs.getUserId(), Fs);
-
+                    if(!this.elemList.containsKey(user1)){
+                        Friendships Fs = new Friendships(user1);
+                        this.elemList.put(Fs.getUserId(), Fs);
+                    }
                     this.lookUp(user1).addFriend(user2, friendsSince, real_status);
-                    this.lookUp(user2).addFriend(user1, friendsSince, real_status);
+
 
                 } catch (ElementExistsException e) {
                     e.printStackTrace();
@@ -118,7 +117,10 @@ public class FriendshipRepository implements Repository<EID, Friendships> {
             this.addElem(new Friendships(keyB));
         }
         this.lookUp(keyA).addFriend(keyB);
+        this.lookUp(keyA).changeFriend(keyB, LocalDateTime.now(), FriendshipStatus.SENT);
         this.lookUp(keyB).addFriend(keyA);
+        this.lookUp(keyB).changeFriend(keyA, LocalDateTime.now(), FriendshipStatus.PENDING);
+
         addToDb(keyA, keyB, LocalDateTime.now(), FriendshipStatus.SENT);
         addToDb(keyB, keyA, LocalDateTime.now(), FriendshipStatus.PENDING);
     }

@@ -1,20 +1,15 @@
 package com.mocksocialnetwork;
 
-import Entities.User;
 import Exceptions.ApiSpecific.LoginFailed;
 import UserAPI.UserSession;
 import Utils.SimpleEncoder;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.controlsfx.control.NotificationPane;
-import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 
@@ -28,6 +23,8 @@ public class LoginController {
     private Button login_button;
     @FXML
     private Button register_button;
+    @FXML
+    private Label login_error;
 
     @FXML
     protected void onRegisterButtonClicked() throws IOException {
@@ -53,6 +50,8 @@ public class LoginController {
 
             Stage sourceStage = (Stage) login_button.getScene().getWindow();
             Scene main_scene = new Scene(fxmlLoader.load(), 650, 500 );
+            sourceStage.setMaxWidth(650);
+            sourceStage.setMaxHeight(500);
             MainController controller = fxmlLoader.getController();
 
             sourceStage.hide();
@@ -63,7 +62,7 @@ public class LoginController {
             sourceStage.show();
 
         } catch (LoginFailed e) {
-            System.out.println(e.getMessage());
+            login_error.setText("Wrong user or password");
         }
 
 

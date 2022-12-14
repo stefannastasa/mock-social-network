@@ -50,7 +50,7 @@ public class Friendships {
      * */
     public void addFriend(EID F) throws SocialNetworkException {
         if(!friendships.isEmpty()){
-            boolean err = friendships.stream().anyMatch(E -> E.getUser() == F);
+            boolean err = friendships.stream().anyMatch(E -> E.getUser().equals(F));
             if(err)
                 throw new CustomException("Users are already friends!");
         }
@@ -60,7 +60,7 @@ public class Friendships {
 
     public void addFriend(EID F, LocalDateTime friendsSince, FriendshipStatus status) throws SocialNetworkException{
         if(!friendships.isEmpty()){
-            boolean err = friendships.stream().anyMatch(E -> E.getUser() == F);
+            boolean err = friendships.stream().anyMatch(E -> E.getUser().equals(F));
             if(err)
                 throw new CustomException("Users are already friends!");
         }
@@ -72,17 +72,17 @@ public class Friendships {
      * @param F id of the friend to be removed
      * @throws SocialNetworkException in case of there not being a friendship between the users beforehand */
     public void removeFriend(EID F) throws SocialNetworkException {
-        boolean err = friendships.removeIf(E -> E.getUser() == F);
-        if(err)
+        boolean err = friendships.removeIf(E -> E.getUser().equals(F));
+        if(!err)
             throw new CustomException("Users were not friends!");
     }
 
     public void changeFriend(EID F, LocalDateTime new_date, FriendshipStatus new_status) throws SocialNetworkException {
-        boolean err = friendships.stream().anyMatch(E -> E.getUser() == F);
+        boolean err = friendships.stream().anyMatch(E -> E.getUser().equals(F));
         if(!err){
             throw new CustomException("No friendship found.");
         }
-        friendships.stream().filter(E -> E.getUser() == F)
+        friendships.stream().filter(E -> E.getUser().equals(F))
                     .forEach(
                             E -> {
                                 E.setStatus(new_status);
@@ -91,7 +91,7 @@ public class Friendships {
                     );
     }
     public Friendship getFriendshipProperties(EID F){
-        return friendships.stream().filter(E -> E.getUser() == F).toList().get(0);
+        return friendships.stream().filter(E -> E.getUser().equals(F)).toList().get(0);
     }
     /**
      * Checks if given user is a friend of the user.
@@ -99,7 +99,7 @@ public class Friendships {
      * @return True if F is a friend, else false
      * */
     public boolean isFriend(EID F){
-        return friendships.stream().anyMatch(E -> E.getUser() == F);
+        return friendships.stream().anyMatch(E -> E.getUser().equals(F));
     }
 
     /**

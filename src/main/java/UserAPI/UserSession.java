@@ -6,6 +6,7 @@ import Entities.ProtectedUser;
 import Entities.User;
 import Exceptions.ApiSpecific.LoginFailed;
 import Service.Service;
+import Utils.FriendshipStatus;
 import Utils.pair;
 
 import java.util.Arrays;
@@ -42,15 +43,9 @@ public class UserSession {
     public void acceptFriendship(EID user){
         app_service.acceptFriendship(subject.getUserId(), user);
     }
-
-    public void rejectFriendship(EID user){
-        try {
-            app_service.removeFriendship(subject.getUserId(), user);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public void sendFriendRequest(EID user) throws Exception {
+        app_service.addFriendship(subject.getUserId(), user);
     }
-
     public List<ProtectedUser> searchUsers(String input){
         return app_service.searchUsers(input)
                 .stream().filter(E ->
@@ -61,4 +56,15 @@ public class UserSession {
         return app_service.EidLookUpName(user);
     }
 
+    public void removeFriend(EID user) throws Exception {
+        app_service.removeFriendship(subject.getUserId(), user);
+    }
+    public FriendshipStatus checkFriend(EID user){
+        pair<String, Friendship> to_ret = app_service.getUserFriends(subject).stream().filter(E -> E.second.getUser().equals(user)).findAny().orElse(null);
+        if(to_ret == null){
+            return null;
+        }else{
+            return to_ret.second.getStatus();
+        }
+    }
 }

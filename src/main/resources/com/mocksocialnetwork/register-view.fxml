@@ -5,16 +5,14 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="531.0" prefWidth="355.0" style="-fx-background-color: F9F9F9;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.mocksocialnetwork.RegisterController">
    <children>
-      <Separator orientation="VERTICAL" prefHeight="34.0" prefWidth="0.0" opacity="0" />
+      <Separator opacity="0" orientation="VERTICAL" prefHeight="34.0" prefWidth="0.0" />
       <Text fill="#3d3b8e" mouseTransparent="true" strokeType="OUTSIDE" strokeWidth="0.0" text="mock-social-network" textAlignment="CENTER" wrappingWidth="356.60003662109375">
          <font>
             <Font name="Cantarell Regular" size="30.0" />
@@ -28,7 +26,7 @@
                   <Font size="17.0" />
                </font>
             </Text>
-            <Separator prefHeight="8.0" prefWidth="0.0" opacity="0" />
+            <Separator opacity="0" prefHeight="8.0" prefWidth="0.0" />
             <TextField fx:id="username_field" prefHeight="14.0" prefWidth="141.0" />
          </children>
       </HBox>
@@ -40,7 +38,7 @@
                   <Font size="17.0" />
                </font>
             </Text>
-            <Separator prefHeight="8.0" prefWidth="0.0" opacity="0" />
+            <Separator opacity="0" prefHeight="8.0" prefWidth="0.0" />
             <TextField fx:id="email_field" prefHeight="14.0" prefWidth="141.0" />
          </children>
       </HBox>
@@ -52,7 +50,7 @@
                   <Font size="17.0" />
                </font>
             </Text>
-            <Separator prefHeight="8.0" prefWidth="0.0" opacity="0" />
+            <Separator opacity="0" prefHeight="8.0" prefWidth="0.0" />
             <TextField fx:id="name_field" prefHeight="14.0" prefWidth="141.0" />
          </children>
       </HBox>
@@ -64,17 +62,31 @@
                   <Font size="17.0" />
                </font>
             </Text>
-            <Separator prefHeight="8.0" prefWidth="0.0" opacity="0"/>
+            <Separator opacity="0" prefHeight="8.0" prefWidth="0.0" />
             <PasswordField fx:id="password_field" prefHeight="26.0" prefWidth="140.0" />
          </children>
       </HBox>
       <Separator orientation="VERTICAL" prefHeight="7.0" prefWidth="5.0" />
       <VBox alignment="CENTER" prefHeight="89.0" prefWidth="355.0">
          <children>
-            <Button fx:id="register_button" onMouseClicked="#onRegisterClick" id="btn" style="-fx-background-color: 3D3B8E; -fx-text-fill: F9F9F9" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" prefHeight="23.0" prefWidth="101.0" text="Register" textAlignment="CENTER">
+            <Button id="btn" fx:id="register_button" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onMouseClicked="#onRegisterClick" prefHeight="23.0" prefWidth="101.0" style="-fx-background-color: #3D3B8E; -fx-text-fill: #F9F9F9" text="Register" textAlignment="CENTER">
                <styleClass>
                   <String fx:value="btn" />
+               </styleClass>
+               <styleClass>
                   <String fx:value="btn-primary" />
+               </styleClass>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Separator orientation="VERTICAL" prefHeight="10.0" prefWidth="5.0" />
+            <Button id="btn" fx:id="back_button"   onAction="#onBackPressed" contentDisplay="CENTER" defaultButton="true" mnemonicParsing="false" onMouseClicked="#onRegisterClick" prefHeight="30.0" prefWidth="63.0" style="-fx-background-color: #3D3B8E; -fx-text-fill: #F9F9F9" text="Back" textAlignment="CENTER">
+               <styleClass>
+                  <String fx:value="btn" />
+               </styleClass>
+               <styleClass>
+                  <String fx:value="btn-secondary" />
                </styleClass>
                <font>
                   <Font size="15.0" />

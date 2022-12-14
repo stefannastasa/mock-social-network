@@ -10,6 +10,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class RegisterController {
 
     Service app_serv = Service.getInstance();
@@ -28,6 +30,8 @@ public class RegisterController {
 
     @FXML
     private Button register_button;
+    @FXML
+    private Button back_button;
 
     @FXML
     protected void onRegisterClick(){
@@ -50,9 +54,23 @@ public class RegisterController {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("login-view.fxml"));
 
             Stage sourceStage = (Stage) register_button.getScene().getWindow();
-            Scene login_scene = new Scene(fxmlLoader.load(), 650, 500 );
+            Scene login_scene = new Scene(fxmlLoader.load(), 400, 400 );
             sourceStage.setScene(login_scene);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    protected void onBackPressed() {
+
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("login-view.fxml"));
+
+            Stage sourceStage = (Stage) register_button.getScene().getWindow();
+            Scene login_scene = new Scene(fxmlLoader.load(), 400, 400 );
+            sourceStage.setScene(login_scene);
+        }catch(IOException e){
             System.out.println(e.getMessage());
         }
     }
