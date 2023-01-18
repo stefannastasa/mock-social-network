@@ -40,6 +40,9 @@ public class MainController {
     private Button friends_button;
 
     @FXML
+    private Button chat_button;
+
+    @FXML
     private ListView<HBox> friendsListView;
 
     @FXML
@@ -233,6 +236,25 @@ public class MainController {
             sourceStage.setScene(main_scene);
         }catch(IOException e){
             System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    protected void onChatButton(){
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("chat-view.fxml"));
+        try{
+            Stage sourceStage = (Stage) chat_button.getScene().getWindow();
+            Scene chat_scene = new Scene(fxmlLoader.load(), 500, 600);
+            ChatController chat_controller = fxmlLoader.getController();
+
+            sourceStage.hide();
+
+            chat_controller.initView(session);
+            sourceStage.setScene(chat_scene);
+
+            sourceStage.show();
+        }catch(IOException e){
+
         }
     }
 

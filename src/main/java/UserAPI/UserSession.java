@@ -1,10 +1,8 @@
 package UserAPI;
 
-import Entities.EID;
-import Entities.Friendship;
-import Entities.ProtectedUser;
-import Entities.User;
+import Entities.*;
 import Exceptions.ApiSpecific.LoginFailed;
+import Exceptions.RepoSpecific.ElementExistsException;
 import Service.Service;
 import Utils.FriendshipStatus;
 import Utils.pair;
@@ -56,6 +54,10 @@ public class UserSession {
         return app_service.EidLookUpName(user);
     }
 
+    public String lookUpUserName(EID user){
+        return app_service.EidLookUpUsername(user);
+    }
+
     public void removeFriend(EID user) throws Exception {
         app_service.removeFriendship(subject.getUserId(), user);
     }
@@ -66,5 +68,28 @@ public class UserSession {
         }else{
             return to_ret.second.getStatus();
         }
+    }
+
+    public List<Message> getMessages(){
+        return app_service.getUserMessages(subject.getUserId());
+    }
+
+    public void addMessage(Message m){
+        try {
+            app_service.addMessage(m);
+        } catch (ElementExistsException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public EID lookUpEID(String user_name){
+        return app_service.getUser(user_name).getUserId();
+    }
+    public User retrieveUser(){
+        return subject;
+    }
+
+    public User retrieveUser(String user_name){
+        return app_service.getUser(user_name);
     }
 }

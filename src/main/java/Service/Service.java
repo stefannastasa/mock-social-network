@@ -1,7 +1,9 @@
 package Service;
 
 import Entities.*;
+import Exceptions.RepoSpecific.ElementExistsException;
 import Exceptions.SocialNetworkException;
+import Repository.MessageRepository;
 import Repository.UserRepository;
 import Repository.FriendshipRepository;
 
@@ -17,6 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Service {
     private final UserRepository UserRepo = new UserRepository();
     private final FriendshipRepository FriendsRepo = new FriendshipRepository();
+
+    private final MessageRepository MessRepo = new MessageRepository();
     private final Strategy validator = new InputValidator();
 
     private static Service instance = null;
@@ -197,6 +201,7 @@ public class Service {
     public String EidLookUpName(EID user){
         return UserRepo.lookUp(user).getName();
     }
+
     public String EidLookUpUsername(EID user){
         return UserRepo.lookUp(user).getUsername();
     }
@@ -214,4 +219,21 @@ public class Service {
         return UserRepo.getStream().filter(E -> E.getUsername().contains(input) || E.getName().contains(input)).map(E -> new ProtectedUser(E.getName(), E.getUsername(), E.getUserId())).toList();
     }
 
+
+    class MessComp implements Comparator<Message> {
+        @Override
+        public int compare(Message o1, Message o2) {
+            return o1.getTimeSent().compareTo(o2.getTimeSent());
+        }
+    }
+
+    public List<Message> getUserMessages(EID user){
+        List<Message> messList = new ArrayList<>(MessRepo.getStream().filter(E -> E.getReceiver().getUserId().equals(user) || E.getSender().getUserId().equals(user)).toList());
+        messList.sort(new MessComp());
+        return messList;
+    }
+
+    public void addMessage(Message mess) throws ElementExistsException {
+        MessRepo.addElem(mess);
+    }
 }
